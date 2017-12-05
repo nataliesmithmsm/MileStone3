@@ -1,0 +1,20 @@
+app:
+  id: TISV
+  name: MileStone3 training app
+  buildNumber: "1.0.0"
+
+spring:
+  main:
+    bannerMode: "OFF"
+
+server:
+  port: 9000
+  tomcat:
+    acceptCount: 1024
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,application/javascript
+
+management:
+  security:
+    enabled: false
