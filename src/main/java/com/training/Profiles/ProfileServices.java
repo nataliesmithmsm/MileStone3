@@ -1,14 +1,13 @@
 package com.training.Profiles;
 
 
+import com.sun.tools.javac.sym.Profiles;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProfileServices {
@@ -21,16 +20,29 @@ public class ProfileServices {
     ));
 
     public List<Profile> getAllProfiles() {
+
         return profiles;
     }
+
 
     public Profile getProfile(String ID) {
         return profiles.stream().filter(profile -> profile.getID().equals(ID)).findFirst().get();
     }
 
-
     public void addProfile(Profile profile) {
         profiles.add(profile);
     }
 
+
+    public void addIDProfile(Profile profile) {
+
+        if (profile.getFirstname() != null && profile.getLastname() != null) {
+            String uniqueID = UUID.randomUUID().toString();
+            profile.setID(uniqueID);
+
+            profiles.add(profile);
+            System.out.println(profile);
+
+        }
+    }
 }

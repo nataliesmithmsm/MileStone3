@@ -21,9 +21,14 @@ public class ProfileController {
         return profileServices.getProfile(ID);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/Profiles")
-    public void addTopic(@RequestBody Profile profile){
+    @RequestMapping(method = RequestMethod.POST, value = "/profiles")
+    public void addProfile(@RequestBody Profile profile){
         profileServices.addProfile(profile); }
+
+    @RequestMapping(method =  RequestMethod.POST, value = "profilesID")
+    public void automaticIDprofile(@RequestBody Profile profile){
+        profileServices.addIDProfile(profile);
+    }
 
 
 

@@ -1,7 +1,5 @@
 package com.training.Basics;
 
-import org.springframework.scheduling.config.ScheduledTask;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -9,7 +7,6 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Timer;
 
 public class TimeServices {
 

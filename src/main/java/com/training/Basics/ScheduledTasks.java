@@ -16,5 +16,4 @@ public class ScheduledTasks {
     public void reportCurrentTime(){
        System.out.println("The time is: " + dateFormat.format(new Date()));
    }
-
 }
