@@ -27,11 +27,11 @@ public class ProfileController {
         profileServices.addProfile(profile); }
 
     @RequestMapping(method =  RequestMethod.POST, value = "/profilesID")
-    public void automaticIDprofile(@RequestBody Profile profile){
+    public void automaticIDProfile(@RequestBody Profile profile){
         profileServices.generateAutomaticProfile(profile);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/mongo")
+    @RequestMapping(method = RequestMethod.POST, value = "/addProfile")
     public void putProfileIntoMongo(@RequestBody Profile profile){
         profileServices.postIntoMongo(profile);
     }
@@ -42,11 +42,8 @@ public class ProfileController {
         System.out.println(matchingIDSS);
         return matchingIDSS;    }
 
-//    @RequestMapping(method = RequestMethod.GET, value = "/mongo/{id}")
-//    public List<Profile> findProfile(@PathVariable("id") String id) throws IOException{
-//        return profileServices.getDatafromMongo(id);
-//    }
-
-
-
+    @RequestMapping(method = RequestMethod.GET, value = "/profiles/{profileID}")
+    public Profile searchByID (@PathVariable("profileID") String profileID) throws  IOException {
+       return profileServices.findByID(profileID);
+    }
 }

@@ -13,7 +13,6 @@ spring:
       host: localhost
 
 
-
 server:
   port: 9000
   tomcat:

@@ -16,6 +16,7 @@ public class Profile {
 
     @Id
     private String id;
+    private String profileID;
     private String firstName;
     private String lastName;
 
@@ -33,6 +34,6 @@ public class Profile {
 
     @Override
     public String toString() {
-         return getId() + " " + getFirstName() + " " + getLastName();
+         return getId() + " " + getProfileID() + " " + getFirstName() + " " + getLastName();
     }
 }
