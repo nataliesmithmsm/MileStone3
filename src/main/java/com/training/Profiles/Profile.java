@@ -1,49 +1,38 @@
 package com.training.Profiles;
+import lombok.*;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.ToString;
 
+@EntityScan
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Document(collection = "ProfileDetails")
 public class Profile {
 
-    private String ID;
-    private String Firstname;
-    private String Lastname;
+    @Id
+    private String id;
+    private String firstName;
+    private String lastName;
 
-    public Profile() {}
-
-    public Profile(String ID, String Firstname, String Lastname){
-
-        this.ID = ID;
-        this.Firstname = Firstname;
-        this.Lastname = Lastname;
+    private boolean isFirstNameEmpty() {
+        return firstName == null;
     }
 
-    public String getID() {
-        return ID;
+    private boolean isLastNameEmpty() {
+        return lastName == null;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
-    }
-
-    public String getFirstname() {
-        return Firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        Firstname = firstname;
-    }
-
-    public String getLastname() {
-        return Lastname;
-    }
-
-    public void setLastname(String lastname) {
-        Lastname = lastname;
-    }
+//    public boolean isEmpty() {
+//        return isFirstNameEmpty() && isLastNameEmpty();
+//    }
 
     @Override
-    public String toString()
-    {
-        return getID() + " " + getFirstname() + " " + getLastname();
+    public String toString() {
+         return getId() + " " + getFirstName() + " " + getLastName();
     }
 }

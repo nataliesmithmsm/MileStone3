@@ -6,13 +6,6 @@ app:
 spring:
   main:
     bannerMode: "OFF"
-  data:
-    mongodb:
-      database: Profiles
-      port: 27017
-      host: localhost
-
-
 
 server:
   port: 9000
