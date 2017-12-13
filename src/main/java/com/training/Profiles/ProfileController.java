@@ -1,10 +1,13 @@
 package com.training.Profiles;
 
+import com.training.domain.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProfileController {
@@ -43,7 +46,9 @@ public class ProfileController {
         return matchingIDSS;    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/profiles/{profileID}")
-    public Profile searchByID (@PathVariable("profileID") String profileID) throws  IOException {
-       return profileServices.findByID(profileID);
+    public Profile searchByID (@PathVariable("profileID") String profileID, HttpServletResponse response) throws  IOException{
+        Profile matchedProfile = profileServices.findByID(profileID);
+        return Optional.ofNullable(matchedProfile)
+                .orElseThrow(() -> new NotFoundException("Profile not found"));
     }
 }
