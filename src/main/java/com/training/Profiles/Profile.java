@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @Builder
 @Document(collection = "ProfileDetails")
+@EqualsAndHashCode
 public class Profile {
 
     @Id
@@ -28,12 +29,9 @@ public class Profile {
         return lastName == null;
     }
 
-//    public boolean isEmpty() {
-//        return isFirstNameEmpty() && isLastNameEmpty();
-//    }
-
     @Override
     public String toString() {
          return getId() + " " + getProfileID() + " " + getFirstName() + " " + getLastName();
     }
+
 }

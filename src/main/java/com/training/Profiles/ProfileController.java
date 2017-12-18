@@ -16,8 +16,13 @@ public class ProfileController {
     private ProfileServices profileServices;
 
     @RequestMapping("/profiles")
-    public List<Profile> getAllProfiles(@RequestParam(required = false) String firstName){
-        return firstName != null ? profileServices.getByFirstName(firstName) : profileServices.getAllProfiles();
+    public List<Profile> findByFirstNameOrGetAllProfiles(@RequestParam(required = false) String firstName) {
+        return firstName != null ? profileServices.findProfilesByFirstName(firstName) : profileServices.getAllProfiles();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/findAllProfiles")
+    public List<Profile> findAllLocalProfiles() {
+        return profileServices.findAllLocalProfiles();
     }
 
 //    @RequestMapping("/profiles/{ID}")
@@ -26,28 +31,30 @@ public class ProfileController {
 //    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/profiles")
-    public void addProfile(@RequestBody Profile profile){
-        profileServices.addProfile(profile); }
+    public void addLocalProfile(@RequestBody Profile profile) {
+        profileServices.addLocalProfile(profile);
+    }
 
-    @RequestMapping(method =  RequestMethod.POST, value = "/profilesID")
-    public void automaticIDProfile(@RequestBody Profile profile){
+    @RequestMapping(method = RequestMethod.POST, value = "/profilesID")
+    public void generateAutomaticIDProfile(@RequestBody Profile profile) {
         profileServices.generateAutomaticProfile(profile);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addProfile")
-    public void putProfileIntoMongo(@RequestBody Profile profile){
+    public void postProfileIntoMongoDb(@RequestBody Profile profile) {
         profileServices.postIntoMongo(profile);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/mongo/{id}")
-    public Profile getprofilesFromMongo(@PathVariable("id") String id) throws IOException {
-        Profile matchingIDSS = profileServices.getDatafromMongo(id);
+    public Profile findProfilesById(@PathVariable("id") String id) throws IOException {
+        Profile matchingIDSS = profileServices.findProfileById(id);
         System.out.println(matchingIDSS);
-        return matchingIDSS;    }
+        return matchingIDSS;
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/profiles/{profileID}")
-    public Profile searchByID (@PathVariable("profileID") String profileID, HttpServletResponse response) throws  IOException{
-        Profile matchedProfile = profileServices.findByID(profileID);
+    public Profile searchByID(@PathVariable("profileID") String profileID, HttpServletResponse response) throws IOException {
+        Profile matchedProfile = profileServices.findProfileByProfileId(profileID);
         return Optional.ofNullable(matchedProfile)
                 .orElseThrow(() -> new NotFoundException("Profile not found"));
     }

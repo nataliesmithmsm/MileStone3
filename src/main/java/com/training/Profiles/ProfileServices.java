@@ -26,15 +26,13 @@ public class ProfileServices {
         return profileRepository.findAll();
     }
 
-//    public Profile getProfile(String ID) {
-//        return this.profiles.stream().filter(profile -> profile.getId().equals(ID)).findFirst().get();
-//    }
+    public List<Profile> findAllLocalProfiles(){return profiles;}
 
-    public List<Profile> getByFirstName(String firstName){
-        return profileRepository.findByFirstName(firstName);
+    public Profile getProfileByID (String ID) {
+        return this.profiles.stream().filter(profile -> profile.getId().equals(ID)).findFirst().get();
     }
 
-    public void addProfile(Profile profile) {
+    public void addLocalProfile(Profile profile) {
         this.profiles.add(profile);
     }
 
@@ -50,15 +48,18 @@ public class ProfileServices {
         }
     }
 
+    public List<Profile> findProfilesByFirstName(String firstName){
+        return profileRepository.findByFirstName(firstName);
+    }
     public void postIntoMongo(Profile profile) {
         profileRepository.save(profile);
     }
 
-    public Profile getDatafromMongo(String id) throws IOException {
+    public Profile findProfileById(String id) throws IOException {
         return profileRepository.findById(id);
     }
 
-    public Profile findByID (String profileID){
+    public Profile findProfileByProfileId(String profileID){
         return profileRepository.findByProfileID(profileID);
     }
 }
