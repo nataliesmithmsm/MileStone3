@@ -41,7 +41,7 @@ public class ProfileServices {
         if(profile.getFirstName() != null && profile.getLastName() != null){
 
             String uniqueID = UUID.randomUUID().toString();
-            profile.setId(uniqueID);
+            profile.setProfileID(uniqueID);
 
             profiles.add(profile);
             System.out.println(profile.toString());

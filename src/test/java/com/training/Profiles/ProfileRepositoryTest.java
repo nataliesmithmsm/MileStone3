@@ -30,25 +30,30 @@ public class ProfileRepositoryTest {
     }
 
     @Test
-    public void findById() throws Exception {
+    public void findProfileById_shouldReturnCorrectProfile() throws Exception {
         Profile result = profileRepository.findById(profile3.getId());
-
         assertEquals(profile3, result);
     }
 
     @Test
-    public void findByFirstName() throws Exception {
+    public void findProfileByFirstName_shouldReturnCorrectProfile() throws Exception {
         List<Profile> profiles = profileRepository.findByFirstName(profile1.getFirstName());
-
         assertFalse(profiles.isEmpty());
         assertEquals(profile1, profiles.get(0));
     }
 
     @Test
-    public void findByProfileID() throws Exception {
+    public void findByProfileID_shouldReturnCorrectProfile() throws Exception {
         Profile result = profileRepository.findByProfileID(profile2.getProfileID());
-
         assertEquals(profile2, result);
+    }
+
+    @Test
+    public void shouldCreateNewProfile() throws Exception {
+        Profile profile = new Profile(null, "testId", "firstName", "lastName");
+        profile = profileRepository.save(profile);
+
+        assertEquals(profile, profileRepository.findById(profile.getId()));
     }
 
     private Profile createProfile(String id, String profileID, String firstName, String lastName) {

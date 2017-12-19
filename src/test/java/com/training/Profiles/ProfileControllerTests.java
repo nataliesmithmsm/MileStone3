@@ -4,16 +4,21 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,6 +49,8 @@ public class ProfileControllerTests {
         profile4 = new Profile("test", "test", "testName", "testLastName");
         String firstName = "testFirstName";
         String lastName = "lestLastName";
+        List<Profile> profiles = new ArrayList<>(Arrays.asList());
+
     }
 
     @Test
@@ -65,31 +72,44 @@ public class ProfileControllerTests {
     }
 
     @Test
-    public void addLocalProfile() throws Exception {
+    public void addLocalProfile_shouldCreateProfile() throws Exception {
+        Profile mockProfile = new Profile("test1234", "00test", "testfirstname", "testLastName");
+
+      mockMvc.perform(post("/profiles")
+               .contentType(MediaType.APPLICATION_JSON)
+               .content("{\n" +
+                       " \t\t\"id\": \"1\",\n" +
+                       "        \"profileID\": \"001\",\n" +
+                       "        \"firstName\": \"Natalie\",\n" +
+                       "        \"lastName\": \"Smith\"\n" +
+                       "    }"))
+               .andExpect(status().isOk());
     }
 
     @Test
-    public void generateAutomaticIDProfile() throws Exception {
-//        Profile profile5 = new Profile("","testID", "testname", "testSurname");
-//
-//        Mockito.when(profileServices.generateAutomaticProfile(profile5));
-//       // String testName = userService.getUserName("SomeId");
-//        Assert.assertEquals(profile5, profile);
-    }
+    public void generateAutomaticIDForProfile() throws Exception{
 
-    @Test
-    public void postProfileIntoMongoDb() throws Exception {
-//        when(profileServices.postIntoMongo(profile4)).thenReturn(profileRepository.save(profile4))
-//        mockMvc.perform(post("/addProfile").contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk());
-    }
-
-    @Test
-    public void findProfilesById() throws Exception {
-
-        mockMvc.perform(post("/addProfile")
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(post("/profilesID")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(" {\n" +
+                " \t    \"firstName\": \"Natalie\",\n" +
+                "        \"lastName\": \"Smith\"\n" +
+                "    }"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void postProfileIntoMongoDb_shouldPostProfile() throws Exception {
+         mockMvc.perform(post("/addProfile")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        " \t\t\"id\": \"1\",\n" +
+                        "        \"profileID\": \"001\",\n" +
+                        "        \"firstName\": \"Natalie\",\n" +
+                        "        \"lastName\": \"Smith\"\n" +
+                        "    }"))
+                .andExpect(status().isOk());
+
     }
 
 
