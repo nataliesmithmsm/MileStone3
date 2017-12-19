@@ -21,14 +21,6 @@ public class Profile {
     private String firstName;
     private String lastName;
 
-    private boolean isFirstNameEmpty() {
-        return firstName == null;
-    }
-
-    private boolean isLastNameEmpty() {
-        return lastName == null;
-    }
-
     @Override
     public String toString() {
          return getId() + " " + getProfileID() + " " + getFirstName() + " " + getLastName();

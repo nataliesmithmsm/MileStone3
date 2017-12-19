@@ -4,21 +4,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilder.json;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -54,7 +51,7 @@ public class ProfileControllerTests {
     }
 
     @Test
-    public void shouldReturnAllProfiles() throws Exception {
+    public void findAllProfilesInMongo_shouldReturnAllProfiles() throws Exception {
         when(profileServices.getAllProfiles()).thenReturn(Arrays.asList(profile2, profile3));
 
         mockMvc.perform(get("/profiles")
@@ -75,7 +72,7 @@ public class ProfileControllerTests {
     public void addLocalProfile_shouldCreateProfile() throws Exception {
         Profile mockProfile = new Profile("test1234", "00test", "testfirstname", "testLastName");
 
-      mockMvc.perform(post("/profiles")
+      mockMvc.perform(post("/localProfiles/add")
                .contentType(MediaType.APPLICATION_JSON)
                .content("{\n" +
                        " \t\t\"id\": \"1\",\n" +
@@ -89,7 +86,7 @@ public class ProfileControllerTests {
     @Test
     public void generateAutomaticIDForProfile() throws Exception{
 
-        mockMvc.perform(post("/profilesID")
+        mockMvc.perform(post("/localProfiles/AutoID")
         .contentType(MediaType.APPLICATION_JSON)
         .content(" {\n" +
                 " \t    \"firstName\": \"Natalie\",\n" +
@@ -100,7 +97,7 @@ public class ProfileControllerTests {
 
     @Test
     public void postProfileIntoMongoDb_shouldPostProfile() throws Exception {
-         mockMvc.perform(post("/addProfile")
+         mockMvc.perform(post("/profiles/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         " \t\t\"id\": \"1\",\n" +
@@ -119,7 +116,7 @@ public class ProfileControllerTests {
         Profile profile = new Profile("1", profileID, "Natalie", "Smith");
         when(profileServices.findProfileByProfileId(profileID)).thenReturn(profile);
 
-        mockMvc.perform(get("/profiles/{profileID}",
+        mockMvc.perform(get("/profiles/search/{profileID}",
                 profileID).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
@@ -133,7 +130,7 @@ public class ProfileControllerTests {
         String wrongID = "WRONG_ID";
         when(profileServices.findProfileByProfileId(wrongID)).thenReturn(null);
 
-        mockMvc.perform(get("/profiles/{profileID}", wrongID)
+        mockMvc.perform(get("/profiles/search/{profileID}", wrongID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("{\"error\":\"Profile not found\"}"));

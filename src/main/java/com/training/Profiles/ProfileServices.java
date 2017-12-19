@@ -28,8 +28,8 @@ public class ProfileServices {
 
     public List<Profile> findAllLocalProfiles(){return profiles;}
 
-    public Profile getProfileByID (String ID) {
-        return this.profiles.stream().filter(profile -> profile.getId().equals(ID)).findFirst().get();
+    public Profile findLocalProfileByID (String profileID) {
+        return this.profiles.stream().filter(profile -> profile.getProfileID().equals(profileID)).findFirst().get();
     }
 
     public void addLocalProfile(Profile profile) {
